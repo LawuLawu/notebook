@@ -60,3 +60,13 @@ from
 where rnk1 >= total/2 and rnk2 >= total/2
 ```
 
+
+
+ **IFNULL函数**
+
+```mysql
+ifnull(expr1,expr2)
+```
+
+如果expr1不是NULL，IFNULL()返回expr1，否则它返回expr2。IFNULL()返回一个数字或字符串值
+注意:空值不判断
