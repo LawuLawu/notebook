@@ -1,5 +1,7 @@
 MYSQL
 
+**count(case when)**
+
 ```mysql
 count(case when a then 1 else 0 end)
 ```
@@ -12,7 +14,7 @@ count(case when a then 1 else null end)
 
 
 
-寻找中位数ABC公司中位数
+**寻找中位数ABC公司中位数**
 
 ```mysql
 select *,
@@ -28,13 +30,13 @@ cnt/2,cnt/2+1对应偶数情况
 
 
 
-注意从from 和left join 
+**注意从from 和left join** 
 
-不然会出现查询结果为null
+**不然会出现查询结果为null**
 
 
 
-中位数正反序问题
+**中位数正反序问题**
 
 rnk1为正序，rnk2为倒序 需要排序都 >= total/2
 
@@ -69,4 +71,25 @@ ifnull(expr1,expr2)
 ```
 
 如果expr1不是NULL，IFNULL()返回expr1，否则它返回expr2。IFNULL()返回一个数字或字符串值
-注意:空值不判断
+**注意:空值不判断**
+
+
+
+mysql不支持full join 可使用UNION ALL 将 LEFT JOIN 和 RIGHT JOIN 组合起来
+
+
+
+**自连接去重及删除一半重复的记录**
+
+ [612. 平面上的最近距离](https://leetcode.cn/problems/shortest-distance-in-a-plane/)
+
+```mysql
+select *,round(sqrt(pow(a.x-b.x,2)+pow(a.y-b.y,2)),2) as shortest
+
+from Point2D a
+
+join Point2D b 
+
+where a.x < b.x or(a.x = b.x and a.y<b.y) 
+```
+
