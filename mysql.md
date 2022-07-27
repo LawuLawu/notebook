@@ -1,6 +1,6 @@
-MYSQL
+# MYSQL
 
-**count(case when)**
+### **count(case when)**
 
 ```mysql
 count(case when a then 1 else 0 end)
@@ -14,7 +14,7 @@ count(case when a then 1 else null end)
 
 
 
-**寻找中位数ABC公司中位数**
+### **寻找中位数ABC公司中位数**
 
 ```mysql
 select *,
@@ -36,7 +36,7 @@ cnt/2,cnt/2+1对应偶数情况
 
 
 
-**中位数正反序问题**
+### **中位数正反序问题**
 
 rnk1为正序，rnk2为倒序 需要排序都 >= total/2
 
@@ -64,7 +64,7 @@ where rnk1 >= total/2 and rnk2 >= total/2
 
 
 
- **IFNULL函数**
+###  **IFNULL函数**
 
 ```mysql
 ifnull(expr1,expr2)
@@ -79,7 +79,7 @@ mysql不支持full join 可使用UNION ALL 将 LEFT JOIN 和 RIGHT JOIN 组合�
 
 
 
-**自连接去重及删除一半重复的记录**
+### **自连接去重及删除一半重复的记录**
 
  [612. 平面上的最近距离](https://leetcode.cn/problems/shortest-distance-in-a-plane/)
 
@@ -91,5 +91,55 @@ from Point2D a
 join Point2D b 
 
 where a.x < b.x or(a.x = b.x and a.y<b.y) 
+```
+
+
+
+### rank,row_number,dense_rank
+
+1、rank  遇重复值排序并列，然后跳跃到当前排序记录次数开始（递增或递减）排序
+
+2、row_number 遇重复值排序不并列，连续不间断（递增或递减）排序
+
+3、dense_rank 遇重复值排序并列，然后继续不间断（递增或递减）排序
+
+![image-20220713141735797](C:\Users\12432\AppData\Roaming\Typora\typora-user-images\image-20220713141735797.png)
+
+
+
+### 求连续区间
+
+[1225. 报告系统状态的连续日期](https://leetcode.cn/problems/report-contiguous-dates/)
+
+按照rnk_diff进行分组
+
+```mysql
+select 
+
+  period_state,
+
+  min(date) as start_date,
+
+  max(date) as end_date
+
+from
+
+(select
+
+  period_state,
+
+  date,
+
+  row_number() over(order by date) - 
+
+  row_number() over(partition by period_state order by date) as rnk_diff
+
+from cte
+
+where date between '2019-01-01' and '2019-12-31') 
+
+group by period_state, rnk_diff # 不同period_state时rnk_diff一样
+
+order by 2
 ```
 
